@@ -7,6 +7,7 @@ x-arguments: &arguments
     GIT_EMAIL: ${GIT_EMAIL}
     GIT_NAME: ${GIT_NAME}
     XDEBUG_HOST: ${XDEBUG_HOST}
+    XDEBUG_PORT: ${XDEBUG_PORT}
 
 services:
   nginx:
@@ -45,6 +46,8 @@ services:
     container_name: ${PROJECT_NAME}_mariadb
     restart: unless-stopped
     image: mariadb:10.7.1
+    ports:
+      - ${DB_PORT}:3306
     env_file:
       - env/mariadb.env
     volumes:

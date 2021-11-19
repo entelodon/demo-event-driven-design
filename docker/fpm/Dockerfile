@@ -5,33 +5,10 @@ ARG GID=1000
 ARG GIT_EMAIL=${GIT_EMAIL}
 ARG GIT_NAME=${GIT_NAME}
 ARG XDEBUG_HOST=${XDEBUG_HOST}
+ARG XDEBUG_PORT=${XDEBUG_PORT}
 
 RUN apt-get -y update && \
     apt-get -y install apt-utils
-
-## Download script to install PHP extensions and dependencies.
-#ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions  /usr/local/bin/
-#
-#RUN chmod uga+x /usr/local/bin/install-php-extensions \
-#    && sync
-#
-#RUN DEBIAN_FRONTEND=noninteractive apt-get update -q \
-#    && DEBIAN_FRONTEND=noninteractive apt-get install -qq -y \
-#        curl \
-#        git \
-#        zip \
-#        unzip \
-#        wget \
-#    && install-php-extensions \
-#        pdo_mysql \
-#        mcrypt \
-#        zip
-#
-## Install Some More Php Extensions.
-#RUN pecl install xdebug-2.9.6 \
-#    && docker-php-ext-enable xdebug;
-#
-#COPY xdebug.ini /usr/local/etc/php/conf.d/
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install git wget
 
@@ -58,8 +35,9 @@ RUN pecl install xdebug-3.1.1 \
     && docker-php-ext-enable xdebug;
 RUN echo 'xdebug.mode=debug' >> /usr/local/etc/php/conf.d/xdebug.ini && \
     echo 'xdebug.client_host='$XDEBUG_HOST >> /usr/local/etc/php/conf.d/xdebug.ini && \
-    echo 'xdebug.client_port=9003' >> /usr/local/etc/php/conf.d/xdebug.ini && \
-    echo 'xdebug.start_with_request=yes' >> /usr/local/etc/php/conf.d/xdebug.ini
+    echo 'xdebug.client_port='$XDEBUG_PORT >> /usr/local/etc/php/conf.d/xdebug.ini && \
+    echo 'xdebug.start_with_request=yes' >> /usr/local/etc/php/conf.d/xdebug.ini && \
+    echo 'xdebug.log_level=0' >> /usr/local/etc/php/conf.d/xdebug.ini
 
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
