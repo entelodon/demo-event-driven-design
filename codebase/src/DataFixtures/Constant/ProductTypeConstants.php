@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataFixtures\Constants;
+namespace App\DataFixtures\Constant;
 
 class ProductTypeConstants
 {

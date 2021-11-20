@@ -2,8 +2,9 @@
 
 namespace App\DataFixtures;
 
-use App\DataFixtures\Constants\ProductTypeConstants;
-use App\DataFixtures\Constants\PromotionalCodeConstants;
+use App\DataFixtures\Constant\ProductTypeConstants;
+use App\DataFixtures\Constant\PromotionalCodeConstants;
+use App\Entity\Product;
 use App\Entity\ProductType;
 use App\Entity\PromotionalCode;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -19,6 +20,7 @@ class AppFixtures extends Fixture
         $this->productTypeRepository = $manager->getRepository(ProductType::class);
         $this->createAllProductTypes($manager);
         $this->createAllPromotionalCodes($manager);
+        $this->createAllProducts($manager);
     }
 
     private function createAllProductTypes(ObjectManager $manager): void
@@ -53,6 +55,7 @@ class AppFixtures extends Fixture
             PromotionalCodeConstants::DEAL_30_EXACT,
             [
                 ProductTypeConstants::TYPE_ACCESSORIES,
+                ProductTypeConstants::TYPE_LAPTOP,
             ]
         ));
         $manager->persist($this->createPromotionalCode(
@@ -91,10 +94,32 @@ class AppFixtures extends Fixture
         $promotionalCode->setExactAmount($exactAmount);
         foreach ($productTypes as $productType) {
             $productTypeEntity = $this->productTypeRepository->findOneBy([
-                ProductTypeConstants::NAME => $productType
+                ProductTypeConstants::NAME => $productType,
             ]);
             $promotionalCode->addType($productTypeEntity);
         }
         return $promotionalCode;
+    }
+
+    private function createAllProducts(ObjectManager $manager): void
+    {
+        $manager->persist($this->createProduct(100000, 'Samsung 42" QLED TV', ProductTypeConstants::TYPE_TV));
+        $manager->persist($this->createProduct(90000, 'LG 42" QLED TV', ProductTypeConstants::TYPE_TV));
+        $manager->persist($this->createProduct(300000, 'Macbook PRO M1 PRO 16G', ProductTypeConstants::TYPE_LAPTOP));
+        $manager->persist($this->createProduct(350000, 'MAC PRO', ProductTypeConstants::TYPE_PC));
+        $manager->persist($this->createProduct(12500, 'HyperX Headset', ProductTypeConstants::TYPE_ACCESSORIES));
+        $manager->flush();
+    }
+
+    private function createProduct(int $price, string $name, string $productType): Product
+    {
+        $product = new Product();
+        $product->setPrice($price);
+        $product->setName($name);
+        $productTypeEntity = $this->productTypeRepository->findOneBy([
+            ProductTypeConstants::NAME => $productType,
+        ]);
+        $product->setType($productTypeEntity);
+        return $product;
     }
 }

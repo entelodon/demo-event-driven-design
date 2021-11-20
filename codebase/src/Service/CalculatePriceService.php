@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\Product;
 use JetBrains\PhpStorm\Pure;
 
 class CalculatePriceService implements CalculatePriceServiceInterface

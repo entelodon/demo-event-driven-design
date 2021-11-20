@@ -1,9 +1,11 @@
 <?php
 
-namespace App\DataFixtures\Constants;
+namespace App\DataFixtures\Constant;
 
 class PromotionalCodeConstants
 {
+    const CODE = 'code';
+
     const DEAL_20_CODE = 'DEAL20';
     const DEAL_20_AMOUNT = 20;
     const DEAL_20_EXACT = false;

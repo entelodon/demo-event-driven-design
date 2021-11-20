@@ -19,6 +19,15 @@ class PromotionalCodeRepository extends ServiceEntityRepository
         parent::__construct($registry, PromotionalCode::class);
     }
 
+    public function findOneByCode(string $code): ?PromotionalCode
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.code = :code')
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return PromotionalCode[] Returns an array of PromotionalCode objects
     //  */
@@ -32,18 +41,6 @@ class PromotionalCodeRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?PromotionalCode
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
         ;
     }
     */
