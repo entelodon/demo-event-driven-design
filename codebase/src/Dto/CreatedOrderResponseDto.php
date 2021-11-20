@@ -2,6 +2,8 @@
 
 namespace App\Dto;
 
+use JetBrains\PhpStorm\ArrayShape;
+
 class CreatedOrderResponseDto implements \JsonSerializable
 {
     const PRODUCT_NAMES = 'productNames';
@@ -21,37 +23,7 @@ class CreatedOrderResponseDto implements \JsonSerializable
     {
     }
 
-    /**
-     * @return string[]
-     */
-    public function getProductNames(): array
-    {
-        return $this->productNames;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getPromotionalCodes(): array
-    {
-        return $this->promotionalCodes;
-    }
-
-    public function getPrice(): int
-    {
-        return $this->price;
-    }
-
-    public function getDiscountPrice(): int
-    {
-        return $this->discountPrice;
-    }
-
-    public function getFinalPrice(): int
-    {
-        return $this->finalPrice;
-    }
-
+    #[ArrayShape([self::PRODUCT_NAMES => "string[]", self::PROMOTIONAL_CODES => "string[]", self::PRICE => "int", self::DISCOUNT_PRICE => "int", self::FINAL_PRICE => "int"])]
     public function jsonSerialize(): array
     {
         return [

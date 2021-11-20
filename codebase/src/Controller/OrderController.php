@@ -25,8 +25,8 @@ class OrderController extends AbstractController
     {
         if ($request->getContentType() !== ControllerConstants::JSON_REQUEST) {
             return $this->json([
-                ControllerConstants::RESPONSE_MESSAGE => 'Only `application/json` requests are accepted!',
-            ]);
+                ControllerConstants::RESPONSE_ERROR => 'Only `application/json` requests are accepted!',
+            ], 400);
         }
         try {
             $createOrderRequestDto = $this->createOrderRequestFactory->createFromRequest($request);
@@ -35,7 +35,7 @@ class OrderController extends AbstractController
         } catch (InvalidRequestException|CreateOrderDtoValidationException $exception) {
             return $this->json([
                 ControllerConstants::RESPONSE_ERROR => $exception->getMessage(),
-            ]);
+            ], 400);
         }
 
         return $this->json([
