@@ -33,7 +33,7 @@ RUN docker-php-ext-install pdo_mysql
 # Install xdebug
 RUN pecl install xdebug-3.1.1 \
     && docker-php-ext-enable xdebug;
-RUN echo 'xdebug.mode=debug' >> /usr/local/etc/php/conf.d/xdebug.ini && \
+RUN echo 'xdebug.mode=debug,coverage' >> /usr/local/etc/php/conf.d/xdebug.ini && \
     echo 'xdebug.client_host='$XDEBUG_HOST >> /usr/local/etc/php/conf.d/xdebug.ini && \
     echo 'xdebug.client_port='$XDEBUG_PORT >> /usr/local/etc/php/conf.d/xdebug.ini && \
     echo 'xdebug.start_with_request=yes' >> /usr/local/etc/php/conf.d/xdebug.ini && \

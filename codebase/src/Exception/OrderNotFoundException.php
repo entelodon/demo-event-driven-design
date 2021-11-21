@@ -5,9 +5,9 @@ namespace App\Exception;
 use JetBrains\PhpStorm\Pure;
 use Throwable;
 
-class ProductDoesNotExistException extends CreateOrderDtoValidationException
+class OrderNotFoundException extends \Exception
 {
-    const MESSAGE_TEMPLATE = 'Product with ID %s does not exist.';
+    const MESSAGE_TEMPLATE = 'Order with Id %s was not found';
 
     #[Pure]
     public function __construct(string $message = "", int $code = 0, Throwable $previous = null)

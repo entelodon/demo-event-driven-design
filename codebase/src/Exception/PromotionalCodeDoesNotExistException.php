@@ -8,6 +8,7 @@ use Throwable;
 class PromotionalCodeDoesNotExistException extends CreateOrderDtoValidationException
 {
     const MESSAGE_TEMPLATE = 'Promotional Code with CODE %s does not exist.';
+
     #[Pure]
     public function __construct(string $message = "", int $code = 0, Throwable $previous = null)
     {

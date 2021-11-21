@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Dto\CreateOrderRequestDto;
 use App\Exception\ProductDoesNotExistException;
 use App\Exception\PromotionalCodeDoesNotExistException;
+use App\Exception\NoProductsSuppliedException;
 use App\Repository\ProductRepository;
 use App\Repository\PromotionalCodeRepository;
 
@@ -19,6 +20,10 @@ class CreateOrderRequestDtoValidationService implements CreateOrderRequestDtoVal
      */
     public function validateCreateOrderDtoData(CreateOrderRequestDto $createOrderRequestDto): bool
     {
+        if (empty($createOrderRequestDto->getProducts())) {
+            throw new NoProductsSuppliedException();
+        }
+
         foreach ($createOrderRequestDto->getProducts() as $productId) {
             if ($this->productRepository->find($productId) === null) {
                 throw new ProductDoesNotExistException($productId);

@@ -16,10 +16,6 @@ class CalculatePromotionalCodeDiscountPriceService implements CalculatePromotion
         $discountPrice = 0;
         $discountAmount = $promotionalCode->getAmount();
         foreach ($products as $product) {
-            if ($discountAmount === 0) {
-                break;
-            }
-
             if ($promotionalCode->getTypes()->contains($product->getType())) {
                 if (!$promotionalCode->getExactAmount()) {
                     $discountPrice += $this->calculatePercentage($promotionalCode->getAmount(), $product->getPrice());

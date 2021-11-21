@@ -8,6 +8,7 @@ use Throwable;
 class InvalidRequestException extends \Exception
 {
     const MESSAGE_TEMPLATE = 'Missing Argument %s';
+
     #[Pure]
     public function __construct(string $message = "", int $code = 0, Throwable $previous = null)
     {

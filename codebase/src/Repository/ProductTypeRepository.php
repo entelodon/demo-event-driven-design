@@ -19,6 +19,15 @@ class ProductTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductType::class);
     }
 
+    public function findOneByName(string $value): ?ProductType
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.name = :name')
+            ->setParameter('name', $value)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return ProductType[] Returns an array of ProductType objects
     //  */
@@ -32,18 +41,6 @@ class ProductTypeRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?ProductType
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
         ;
     }
     */
